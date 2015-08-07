@@ -25,41 +25,108 @@
     }, function (e) {
     });
 
-    var Test = React.createClass({
+    var WordsTable = React.createClass({
+        getInitialState: function(){
+            return {words: []}
+        },
+        componentDidMount: function(){
+            this.setState({words: words});
+        },
+        updateWord: function (value, index, lang) {
+            var state = this.state;
+            console.log(state)
+            if(lang == "en"){
+                state.words[index].english = value;
+            }else if(lang =="fr"){
+                state.words[index].french = value;
+            }
+
+            this.setState(state);
+            console.log(state);
+        },
         render: function () {
             var rows;
-            if (this.props.words.length > 0)
-                rows = this.props.words.map(function (word, i, xxx) {
-                    return <Row word={word} idKey={i}/>
+            var that = this;
+            if (this.state.words.length > 0)
+                rows = this.state.words.map(function (word, index) {
+                    return <Row word={word} index={index} updateWord={that.updateWord}/>
                 });
             else {
                 rows = <tr>
                     <td colSpan="3">Sorry ... no data</td>
                 </tr>;
             }
-            return <table className="table table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th>English</th>
-                    <th>French</th>
-                    <th width="15%">Audio</th>
-                </tr>
-                </thead>
-                <tbody>
-                {rows}
-                </tbody>
-            </table>
+            return (
+                <div>
+                    <table className="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>English</th>
+                                <th>French</th>
+                                <th width="15%">Audio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>
+                    </table>
+                    <button onClick={this.show}>jkhkj</button>
+                </div>)
+        },
+        show: function(){
+            console.log(this.state.words);
+
         }
     });
 
     var Row = React.createClass({
-
         render: function () {
-            return <tr>
-                <td>{this.props.word.english}</td>
-                <td>{this.props.word.french}</td>
-                <td><Recorder idKey={this.props.idKey}/></td>
-            </tr>;
+            return (
+                <tr>
+                    <EditableField fieldValue={this.props.word.english}
+                                   index={this.props.index}
+                                   lang="en"
+                                   updateField={this.props.updateWord}/>
+                    <EditableField fieldValue={this.props.word.french}
+                                   index={this.props.index}
+                                   lang="fr"
+                                   updateField={this.props.updateWord}/>
+                    <td><Recorder idKey={this.props.index}/></td>
+                </tr>);
+        }
+    });
+
+    var EditableField = React.createClass({
+
+        getInitialState: function () {
+            return {editMode: false};
+        },
+        turnOnEditMode: function (e){
+            console.log("onClick");
+            this.setState({editMode: true});
+        },
+        changeHandler: function(e){
+            console.log("onChange to: "+e.target.value);
+            this.props.updateField(e.target.value, this.props.index, this.props.lang);
+        },
+        turnOffEditMode: function (e){
+            this.setState({editMode: false});
+        },
+        turnOffEditModeOnKeyDown: function (e){
+            if(e.keyCode == 13)
+                this.setState({editMode: false});
+        },
+        render: function(){
+            return (
+                <td onDoubleClick={this.turnOnEditMode}>
+                    {this.state.editMode?
+                        <input autoFocus
+                               onBlur={this.turnOffEditMode}
+                               onKeyDown={this.turnOffEditModeOnKeyDown}
+                               onChange={this.changeHandler}
+                               value={this.props.fieldValue}/>
+                        : <span>{this.props.fieldValue}</span>}
+                </td>);
         }
     });
 
@@ -112,5 +179,5 @@
         {english: "borrow", french: "emprunter"},
         {english: "to be", french: "être"}];
 
-    React.render(<Test words={words}/>, document.getElementById("app"));
+    React.render(<WordsTable />, document.getElementById("app"));
 })();

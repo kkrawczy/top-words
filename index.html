@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>Top Words</title>
@@ -11,7 +10,7 @@
         }
     </style>
 </head>
-<body>
+
 <div class="jumbotron">
     <div class="container">
         <h1>Top words</h1>
@@ -21,9 +20,16 @@
 
 <div id="app"></div>
 
+<script>
+    function onBlur(){
+        console.log("onBlur");
+
+    }
+</script>
+
 <script src="lib/jquery/dist/jquery.js"></script>
 <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-<script src="lib/react/react.js"></script>
+<script src="lib/react/react-with-addons.js"></script>
 <script src="lib/MP3RecorderJS/js/recorderWorker.js"></script>
 <script src="lib/MP3RecorderJS/js/mp3Worker.js"></script>
 <script src="lib/MP3RecorderJS/js/mp3recorder.js"></script>
