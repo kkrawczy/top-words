@@ -1,0 +1,2 @@
+1. do something with this js mp3 library that I corrected
+2. add jshint/jslint
