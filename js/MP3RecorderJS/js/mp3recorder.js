@@ -1,7 +1,7 @@
 (function(window){
 
-  var RECORDER_WORKER_PATH  = 'lib/MP3RecorderJS/js/recorderWorker.js';
-  var ENCODER_WORKER_PATH   = 'lib/MP3RecorderJS/js/mp3Worker.js';
+  var RECORDER_WORKER_PATH  = 'js/MP3RecorderJS/js/recorderWorker.js';
+  var ENCODER_WORKER_PATH   = 'js/MP3RecorderJS/js/mp3Worker.js';
   
   
   var MP3Recorder = function(context, stream, cfg) {
